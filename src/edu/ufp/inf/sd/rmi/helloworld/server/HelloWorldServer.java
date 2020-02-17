@@ -40,7 +40,6 @@ public class HelloWorldServer {
     private HelloWorldRI helloWorldRI;
 
     public static void main(String[] args) {
-        /*
         if (args != null && args.length < 3) {
             System.err.println("usage: java [options] edu.ufp.sd.helloworld.server.HelloWorldServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
             System.exit(-1);
@@ -49,11 +48,6 @@ public class HelloWorldServer {
             HelloWorldServer hws = new HelloWorldServer(args);
             //2. ============ Rebind servant on rmiregistry ============
             hws.rebindService();
-        }*/
-        try {
-            loadProperties();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

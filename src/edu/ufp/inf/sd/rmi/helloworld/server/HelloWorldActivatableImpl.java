@@ -86,4 +86,13 @@ public class HelloWorldActivatableImpl extends Activatable implements HelloWorld
             Logger.getLogger(HelloWorldActivatableImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void hello(String name) throws RemoteException {
+        try {
+            System.out.println("HelloWorldActivatable - name(): someone called "+ ++count +"-th times with name = " + name);
+            persistData(count);
+        } catch (IOException ex) {
+            Logger.getLogger(HelloWorldActivatableImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -88,6 +88,8 @@ public class HelloWorldClient {
             //============ Call HelloWorld remote service ============
             this.helloWorldRI.print("Remote Hello World!");
 
+            this.helloWorldRI.hello("Bruno");
+
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to finish, bye. ;)");
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);

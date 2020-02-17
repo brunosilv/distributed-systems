@@ -21,7 +21,7 @@ export NETBEANS=NetBeans
 export INTELLIJ=IntelliJ
 export CURRENT_IDE=${INTELLIJ}
 #export CURRENT_IDE=¢{NETBEANS}
-export USERNAME=rui
+export USERNAME=brunosilva
 
 #@REM ==== JAVA NAMING STUFF ====
 export JAVAPROJ_NAME=distributed-systems

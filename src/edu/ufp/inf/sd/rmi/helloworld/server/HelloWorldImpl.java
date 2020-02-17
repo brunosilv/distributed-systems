@@ -28,4 +28,10 @@ public class HelloWorldImpl extends UnicastRemoteObject implements HelloWorldRI 
         //System.out.println("HelloWorldImpl - print(): someone called me with msg = "+ msg);
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "someone called me with msg = {0}", new Object[]{msg});
     }
+
+    @Override
+    public void hello(String name) throws RemoteException {
+        //System.out.println("HelloWorldImpl - print(): someone called me with msg = "+ msg);
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Hello {0}", new Object[]{name});
+    }
 }
