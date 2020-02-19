@@ -6,7 +6,7 @@
 
 > include terms/tags that can be searched
 
----
+
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@
 - [Contributing](#contributing)
 - [License](#license)
 
----
+
 
 ## Installation
 
@@ -45,6 +45,8 @@ $ ./runserver
 $ ./runclient
 ```
 
+
+
 ## Contributing
 
 > To get started...
@@ -65,7 +67,7 @@ $ ./runclient
 
 - 🔃 Create a new pull request using <a href="https://github.com/brunosilv/distributed-systems/compare" target="_blank">`https://github.com/brunosilv/distributed-systems/compare`</a>.
 
----
+
 
 ## License
 
