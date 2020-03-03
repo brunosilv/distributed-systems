@@ -62,42 +62,42 @@ public class  CalculatorClient {
         int b = 4;
         try {
             int result=this.myRI.soma(a, b);
-            System.out.println("Sum: "+result);
+            System.out.println("sum: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             int result=this.myRI.sub(a, b);
-            System.out.println("Sub: "+result);
+            System.out.println("sub: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             float result=this.myRI.multi(a, b);
-            System.out.println("Multi: "+result);
+            System.out.println("multi: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             float result=this.myRI.divisao(a, b);
-            System.out.println("Division: "+result);
+            System.out.println("div: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             float result=this.myRI.somar(list);
-            System.out.println("Sum List: "+result);
+            System.out.println("sum list: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             float result=this.myRI.media(list);
-            System.out.println("Med: "+result);
+            System.out.println("med: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
