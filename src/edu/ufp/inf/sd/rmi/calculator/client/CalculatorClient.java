@@ -57,6 +57,8 @@ public class  CalculatorClient {
         ArrayList<Float> list = new ArrayList<Float>();
         list.add((float) 1);
         list.add((float) 2);
+        list.add((float) 2);
+        list.add((float) 5);
 
         int a = 5;
         int b = 4;
@@ -98,6 +100,13 @@ public class  CalculatorClient {
         try {
             float result=this.myRI.media(list);
             System.out.println("med: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            float result=this.myRI.moda(list);
+            System.out.println("mod: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }

@@ -3,6 +3,8 @@ package edu.ufp.inf.sd.rmi.calculator.server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,9 +37,8 @@ public class CalculatorImpl extends UnicastRemoteObject implements CalculatorRI 
 
     @Override
     public float moda(ArrayList<Float> list) throws RemoteException {
-        float sum = 0;
-        for (Float f : list) sum += f;
-        return sum/list.size();
+        float moda = list.indexOf(Collections.max(list));
+        return moda;
     }
 
     @Override
