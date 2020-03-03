@@ -101,5 +101,12 @@ public class  CalculatorClient {
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
+
+        try {
+            double result=this.myRI.potencia(a,b);
+            System.out.println("pot: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
