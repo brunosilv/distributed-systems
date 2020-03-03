@@ -7,6 +7,7 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,9 +54,50 @@ public class  CalculatorClient {
     }
 
     private void playService() {
+        ArrayList<Float> list = new ArrayList<Float>();
+        list.add((float) 1);
+        list.add((float) 2);
+
+        int a = 5;
+        int b = 4;
         try {
-            String msg=this.myRI.methodName();
-            System.out.println("methodName: "+msg);
+            int result=this.myRI.soma(a, b);
+            System.out.println("Sum: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            int result=this.myRI.sub(a, b);
+            System.out.println("Sub: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            float result=this.myRI.multi(a, b);
+            System.out.println("Multi: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            float result=this.myRI.divisao(a, b);
+            System.out.println("Division: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            float result=this.myRI.somar(list);
+            System.out.println("Sum List: "+result);
+        } catch (RemoteException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            float result=this.myRI.media(list);
+            System.out.println("Med: "+result);
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
