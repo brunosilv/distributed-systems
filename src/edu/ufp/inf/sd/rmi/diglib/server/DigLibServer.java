@@ -10,26 +10,39 @@ import java.util.logging.Logger;
 
 public class DigLibServer {
 
-
+    /**
+     * Context for running a RMI Servant on a host
+     */
     private SetupContextRMI contextRMI;
-
-    private DigLibRI myRI;
+    /**
+     * Remote interface that will hold reference to the Servant impl
+     */
+    private DigLibFactoryRI DigLibRI;
 
     public static void main(String[] args) {
         if (args != null && args.length < 3) {
+            System.err.println("usage: java [options] edu.ufp.sd.DigLab.server.DigLibServer <rmi_registry_ip> <rmi_registry_port> <service_name>");
             System.exit(-1);
         } else {
-            DigLibServer srv = new DigLibServer(args);
-            srv.rebindService();
+            //1. ============ Create Servant ============
+            DigLibServer hws = new DigLibServer(args);
+            //2. ============ Rebind servant on rmiregistry ============
+            hws.rebindService();
         }
     }
 
-
+    /**
+     *
+     * @param args
+     */
     public DigLibServer(String args[]) {
         try {
-            String registryIP   = args[0];
+            //============ List and Set args ============
+            printArgs(args);
+            String registryIP = args[0];
             String registryPort = args[1];
-            String serviceName  = args[2];
+            String serviceName = args[2];
+            //============ Create a context for RMI setup ============
             contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName});
         } catch (RemoteException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
@@ -38,16 +51,35 @@ public class DigLibServer {
 
     private void rebindService() {
         try {
+            //Get proxy to rmiregistry
             Registry registry = contextRMI.getRegistry();
+            //Bind service on rmiregistry and wait for calls
             if (registry != null) {
-                myRI = new DigLibImpl();
+                //============ Create Servant ============
+                DigLibRI = (DigLibFactoryRI) new DigLibFactoryImpl();
+
+                //Get service url (including servicename)
                 String serviceUrl = contextRMI.getServicesUrl(0);
-                registry.rebind(serviceUrl, myRI);
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to rebind service @ {0}", serviceUrl);
+
+                //============ Rebind servant ============
+                //Naming.bind(serviceUrl, DigLibRI);
+                registry.rebind(serviceUrl, DigLibRI);
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "service bound and running. :)");
             } else {
+                //System.out.println("DigLibServer - Constructor(): create registry on port 1099");
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
+                //registry = LocateRegistry.createRegistry(1099);
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, "Hello");
+        }
+    }
+
+    private void printArgs(String args[]) {
+        for (int i = 0; args != null && i < args.length; i++) {
+            //System.out.println("DigLibServer - main(): args[" + i + "] = " + args[i]);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "args[{0}] = {1}", new Object[]{i, args[i]});
         }
     }
 }

@@ -1,6 +1,8 @@
 package edu.ufp.inf.sd.rmi.diglib.client;
 
-import  edu.ufp.inf.sd.rmi.diglib.server.DigLibRI;
+import edu.ufp.inf.sd.rmi.diglib.server.Book;
+import edu.ufp.inf.sd.rmi.diglib.server.DigLibFactoryRI;
+import edu.ufp.inf.sd.rmi.diglib.server.DigLibSessionRI;
 import edu.ufp.inf.sd.rmi.util.rmisetup.SetupContextRMI;
 
 import java.rmi.NotBoundException;
@@ -12,25 +14,38 @@ import java.util.logging.Logger;
 
 public class  DigLibClient {
 
-
+    /**
+     * Context for connecting a RMI client to a RMI Servant
+     */
     private SetupContextRMI contextRMI;
-    private  DigLibRI myRI;
+    /**
+     * Remote interface that will hold the Servant proxy
+     */
+    private DigLibFactoryRI digLibFactoryRI;
+    private DigLibSessionRI digLibSessionRI;
 
     public static void main(String[] args) {
         if (args != null && args.length < 2) {
+            System.err.println("usage: java [options] edu.ufp.sd.DigLab.server.DigLibClient <rmi_registry_ip> <rmi_registry_port> <service_name>");
             System.exit(-1);
         } else {
-            DigLibClient clt = new DigLibClient(args);
-            clt.lookupService();
-            clt.playService();
+            //1. ============ Setup client RMI context ============
+            DigLibClient hwc = new DigLibClient(args);
+            //2. ============ Lookup service ============
+            hwc.lookupService();
+            //3. ============ Play with service ============
+            hwc.playService();
         }
     }
 
-    public DigLibClient(String[] args) {
+    public DigLibClient(String args[]) {
         try {
-            String registryIP   = args[0];
+            //List ans set args
+            printArgs(args);
+            String registryIP = args[0];
             String registryPort = args[1];
-            String serviceName  = args[2];
+            String serviceName = args[2];
+            //Create a context for RMI setup
             contextRMI = new SetupContextRMI(this.getClass(), registryIP, registryPort, new String[]{serviceName});
         } catch (RemoteException e) {
             Logger.getLogger(DigLibClient.class.getName()).log(Level.SEVERE, null, e);
@@ -39,25 +54,46 @@ public class  DigLibClient {
 
     private Remote lookupService() {
         try {
+            //Get proxy to rmiregistry
             Registry registry = contextRMI.getRegistry();
+            //Lookup service on rmiregistry and wait for calls
             if (registry != null) {
+                //Get service url (including servicename)
                 String serviceUrl = contextRMI.getServicesUrl(0);
-                myRI = (DigLibRI) registry.lookup(serviceUrl);
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "going to lookup service @ {0}", serviceUrl);
+
+                //============ Get proxy to DigLab service ============
+                digLibFactoryRI = (DigLibFactoryRI) registry.lookup(serviceUrl);
+
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "registry not bound (check IPs). :(");
+                //registry = LocateRegistry.createRegistry(1099);
             }
         } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
-        return myRI;
+        return digLibFactoryRI;
     }
 
     private void playService() {
         try {
-            String msg=this.myRI.methodName();
-            System.out.println("methodName: "+msg);
+            //============ Call DigLab remote service ============
+            digLibSessionRI = this.digLibFactoryRI.login("guest", "ufp");
+            Book[] books = this.digLibSessionRI.search("Distributed", "Tanenbaum");
+
+            for (int i = 0; i < books.length; i++) {
+                System.out.println(books[i].getAuthor() + "\t" + books[i].getTitle());
+            }
+
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "goint to finish, bye. ;)");
         } catch (RemoteException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void printArgs(String args[]) {
+        for (int i = 0; args != null && i < args.length; i++) {
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "args[{0}] = {1}", new Object[]{i, args[i]});
         }
     }
 }
