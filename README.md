@@ -4,16 +4,12 @@
 
 > java rmi programs in context of distributed systems class
 
-> include terms/tags that can be searched
-
-
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Contributing](#contributing)
 - [License](#license)
-
 
 
 ## Installation
@@ -44,7 +40,6 @@ $ ./runserver
 ```shell
 $ ./runclient
 ```
-
 
 
 ## Contributing
